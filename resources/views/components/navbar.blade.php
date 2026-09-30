@@ -79,6 +79,10 @@
                 <a href="{{ route('login') }}" class="btn btn-primary">Masuk</a>
                 <a href="{{ route('register') }}" class="btn btn-light">Daftar</a>
                 @else
+                @if (auth()->user()->role === 'admin')
+                <a href="{{ route('admin.book-categories.index') }}" class="btn btn-outline-primary me-1">Kategori Buku</a>
+                <a href="{{ route('admin.subscription-packages.index') }}" class="btn btn-outline-primary me-1">Paket Langganan</a>
+                @endif
                 <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
                 @endguest
             </div>

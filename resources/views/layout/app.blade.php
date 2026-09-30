@@ -22,8 +22,12 @@
     </style>
     @stack('styles')
 </head>
-<body>
-    <x-navbar />
+<body class="{{ request()->routeIs('admin.*') ? 'admin-body' : '' }}">
+    @if (request()->routeIs('admin.*'))
+        <x-admin-navbar />
+    @else
+        <x-navbar />
+    @endif
     @yield('content')
     <x-footer />
 

@@ -79,59 +79,33 @@
             <h2 class="mb-0 text-dark">Paket Langganan</h2>
         </div>
         <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card subscription-card h-100" style="background: linear-gradient(135deg, #ffffff, #24fa3d 100%);">
-                    <div class="card-body row g-0">
-                        <div class="col-12 text-center text-dark">
-                            <h2 class="mb-1 fw-bold">NON-FICTION</h2>
-                            <p class="mb-2 fw-bold text-secondary">PACKAGE</p>
+            @forelse ($packages as $package)
+                @php
+                    $cardColor = preg_match('/\A#[A-Fa-f0-9]{6}\z/', $package->color) ? $package->color : '#e8edf2';
+                @endphp
+                <div class="col-md-4">
+                    <div class="card subscription-card h-100" style="background: linear-gradient(135deg, #ffffff, {{ $cardColor }} 100%);">
+                        <div class="card-body d-flex flex-column text-center text-dark">
+                            <h3 class="mb-2 fw-bold">{{ $package->name_package }}</h3>
+                            <p class="text-secondary flex-grow-1">{{ $package->description }}</p>
                             <div>
-                                Rp <span class="subscription-price fs-1 fw-bold">49.000</span>
-                                <br>
-                                <span class="text-secondary fw-bold">/30 days</span>
+                                <span class="text-secondary">Rp</span>
+                                <span class="subscription-price fs-1 fw-bold">{{ number_format($package->price, 0, ',', '.') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card subscription-card h-100" style="background: linear-gradient(135deg, #ffffff, #26e3b3 100%);">
-                    <div class="card-body row g-0">
-                        <div class="col-12 text-center text-dark">
-                            <h2 class="mb-1 fw-bold">NON-FICTION</h2>
-                            <p class="mb-2 fw-bold text-secondary">PACKAGE</p>
-                            <div>
-                                Rp <span class="subscription-price fs-1 fw-bold">77.000</span>
-                                <br>
-                                <span class="text-secondary fw-bold">/30 days</span>
-                            </div>
-                        </div>
-                    </div>
+            @empty
+                <div class="col-12">
+                    <p class="text-secondary">Belum ada paket langganan.</p>
                 </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card subscription-card h-100" style="background: linear-gradient(135deg, #ffffff, #e173dc 100%);">
-                    <div class="card-body row g-0">
-                        <div class="col-12 text-center text-dark">
-                            <h2 class="mb-1 fw-bold">NON-FICTION</h2>
-                            <p class="mb-2 fw-bold text-secondary">PACKAGE</p>
-                            <div>
-                                Rp <span class="subscription-price fs-1 fw-bold">999.000</span>
-                                <br>
-                                <span class="text-secondary fw-bold">/30 days</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforelse
         </div>
     </div>
 
     {{-- buku terbaru --}}
 
-    <div class="mt-4">
+    <div id="books" class="mt-4">
         <div class="d-flex align-items-center gap-2 mb-4">
             <h2 class="mt-3 text-dark">Buku Baru Di Rilis</h2>
         </div>

@@ -1,10 +1,15 @@
 <?php
 
+use App\Http\Controllers\BookCategoryController;
+use App\Http\Controllers\SubcriptionPackageController;
 use App\Http\Controllers\UserController;
+use App\Models\SubcriptionPackage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home');
+    $packages = SubcriptionPackage::query()->orderBy('id')->limit(3)->get();
+
+    return view('Home', compact('packages'));
 })->name('home');
 
 Route::get('/welcome', function () {
@@ -29,6 +34,12 @@ Route::get('/logout', [UserController::class, 'logout'])
     ->middleware('isLoggedin')
     ->name('logout');
 
-Route::prefix('admin')->middleware(['isLoggedin', 'isAdmin'])->group(function () {
-    Route::view('/dashboard', 'admin.dashboard')->name('admin.dashboard');
+Route::prefix('admin')->name('admin.')->middleware(['isLoggedin', 'isAdmin'])->group(function () {
+    Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+
+    Route::resource('book-categories', BookCategoryController::class)
+        ->parameters(['book-categories' => 'bookCategory']);
+
+    Route::resource('subscription-packages', SubcriptionPackageController::class)
+        ->parameters(['subscription-packages' => 'subcriptionPackage']);
 });
